@@ -1,3 +1,5 @@
+- include_vars: credentials.yml
+
 - name: Install base packages
   apt: name={{ item }} state=installed
   with_items:
@@ -9,6 +11,7 @@
     - curl
     - wget
     - python-pip
+    - mailutils
     - postfix
   tags:
     - packages
@@ -19,6 +22,37 @@
     - packages
 
 - name: Add external email to /etc/aliases
-  shell: 'echo root: sashley29@gmail.com >> /etc/aliases'
+  shell: |
+    'echo root: sashley29@gmail.com >> /etc/aliases'
+    newaliases
+    service postfix restart
 
+- name: create SASL passwd file for SMTP credentials
+  copy:
+    content: "{{ smtp_string }}"
+    dest: /etc/postfix/sasl/sasl_passwd
+    force: no
+    group: root
+    owner: root
+    mode: 0600
 
+- name: create SASL db file
+  shell: |
+    sudo postmap /etc/postfix/sasl/sasl_passwd
+
+- name: lock down SMTP credential files
+  file:
+    path: /etc/postfix/sasl/sasl_passwd.db
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Configure postfix for forwarding mail
+  shell: |
+    postconf -e 'relayhost = [smtp.gmail.com]:587'
+    postconf -e 'smtp_sasl_auth_enable = yes'
+    postconf -e 'smtp_sasl_security_options = noanonymous'
+    postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd'
+    postconf -e 'smtp_tls_security_level = encrypt'
+    postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt'
+    service postfix restart
