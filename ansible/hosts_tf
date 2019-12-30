@@ -1,0 +1,9 @@
+[all:vars]
+env=test
+
+[tf]
+35.225.16.216
+
+[tf:vars]
+ansible_ssh_user=shawn
+ansible_ssh_private_key_file=/home/shawn/.ssh/id_rsa

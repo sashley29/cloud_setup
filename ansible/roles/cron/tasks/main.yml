@@ -1,0 +1,19 @@
+- name: set MAILTO variable
+  cronvar:
+    name: MAILTO
+    value: sashley29@gmail.com
+
+- name: restart at 4:00 AM daily
+  cron:
+    name: "daily restart"
+    day: "*"
+    minute: "0"
+    hour: "4"
+    job: "/sbin/shutdown -r +5"
+
+- name: delete downloads older than a week
+  cron:
+    name: "delete downloads"
+    special_time: daily
+    job: "/usr/bin/find /home/*/Downloads/ -type f -mtime +7 -delete"
+
