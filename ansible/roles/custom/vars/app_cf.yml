@@ -1,0 +1,4 @@
+---
+release_url: https://api.github.com/repos/sashley29/Desktop/releases/latest
+release_file: desktop_backup.tar
+base_dir: /usr/local/bin/custom

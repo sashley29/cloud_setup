@@ -1,0 +1,32 @@
+- include_vars: credentials.yml
+- include_vars: app_cf.yml
+
+- name: Create custom app directories
+  file:
+    path: "{{ base_dir }}/secrets"
+    state: directory
+    group: shawn
+    owner: shawn
+    mode: 0755
+
+- name: create google app credentials file
+  copy:
+    content: "{{ google_creds }}"
+    dest: "{{ base_dir }}/secrets/Playground-15ed10c8f21e.json"
+    force: no
+    group: shawn
+    owner: shawn
+    mode: 0600
+
+- name: install desktop backup program
+  shell: |
+    cd {{ base_dir | quote }}
+    curl -s {{ release_url | quote }} | grep browser_download_url | cut -d '"' -f 4 | wget -qi -
+    tar --overwrite -xvf {{ release_file | quote }}
+    rm -f {{ release_file | quote }}
+
+- name: setup cron job for desktop backup
+  cron:
+    name: "desktop backup"
+    special_time: daily
+    job: "{{ base_dir }}/scripts/run_backup.sh {{ base_dir }}"
