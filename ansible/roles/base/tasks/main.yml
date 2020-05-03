@@ -1,19 +1,21 @@
 - include_vars: credentials.yml
 
 - name: Install base packages
-  apt: name={{ item }} state=installed
-  with_items:
-    - locales
-    - build-essential
-    - acl
-    - ntp
-    - htop
-    - curl
-    - wget
-    - python-pip
-    - python-setuptools
-    - mailutils
-    - postfix
+  apt: 
+    name:
+      - locales
+      - build-essential
+      - acl
+      - ntp
+      - htop
+      - curl
+      - wget
+      - python-pip
+      - python-setuptools
+      - mailutils
+      - postfix 
+    state: present
+    autoclean: yes
   tags:
     - packages
 
