@@ -11,6 +11,7 @@
     - curl
     - wget
     - python-pip
+    - python-setuptools
     - mailutils
     - postfix
   tags:
