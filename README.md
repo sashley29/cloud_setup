@@ -7,4 +7,4 @@ $ sudo apt install ansible
 ```
 
 ### Run playbook locally
-`sudo ansible-playbook --ask-vault-pass --connection=local --inventory 127.0.0.1, ansible/playbook.yml
+`sudo ansible-playbook --ask-vault-pass --connection=local --inventory 127.0.0.1, ansible/playbook.yml`
