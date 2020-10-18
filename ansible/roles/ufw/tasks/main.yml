@@ -7,6 +7,3 @@
     port: ssh
     proto: tcp
 
-- ufw:
-    rule: allow
-    name: OpenSSH
