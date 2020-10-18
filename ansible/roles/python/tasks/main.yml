@@ -1,4 +1,8 @@
 - pip:
-    name: 
+    name:
+      - setuptools 
+      - six
+      - google-cloud
       - google-cloud-storage
       - google-cloud-pubsub
+    executable: pip3
