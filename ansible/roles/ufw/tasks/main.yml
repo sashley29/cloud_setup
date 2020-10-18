@@ -1,0 +1,12 @@
+- name: Enable UFW rules
+  ufw:
+    state: enabled
+
+- ufw:
+    rule: limit
+    port: ssh
+    proto: tcp
+
+- ufw:
+    rule: allow
+    name: OpenSSH

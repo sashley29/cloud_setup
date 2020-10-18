@@ -16,6 +16,7 @@
       - postfix 
       - nodejs
       - npm
+      - openssh-server
     state: present
     autoclean: yes
   tags:
